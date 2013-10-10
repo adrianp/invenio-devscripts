@@ -290,6 +290,16 @@ under =/opt/invenio=.  The final backup file is named like
 =inveniomaint11-site-backup-2013-07-28-13-05-21.tar= and can be
 restored via =invenio-restore-site= devscript, see below.
 
+By default, the backups are saved in =/tmp=; if you want to save in a different
+directory, say =/my_backup_dir=, you can do this by running:
+
+#+BEGIN_SRC sh
+invenio-backup-site -o /my_backup_dir
+#+END_SRC
+
+In this case you will have to make sure that =/my_backup_dir= is writable by the
+Invenio user (usually =www-data=).
+
 ** invenio-restore-site
 
 Restores Invenio site instance from the backup file previously created
