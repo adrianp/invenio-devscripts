@@ -53,7 +53,11 @@ set -o errexit
 set -o nounset
 
 # perparations: stop Apache:
-sudo $CFG_INVENIO_APACHECTL stop
+if hash service 2>/dev/null; then
+    sudo service apache2 stop
+else
+    sudo $CFG_INVENIO_APACHECTL stop
+fi
 
 # preparations: stop bibsched queue:
 echo "[INFO] Stopping bibsched queue..."
@@ -71,7 +75,11 @@ MYFINALNAME=$MYFINALNAME/$(sudo -u $CFG_INVENIO_USER /opt/invenio/bin/inveniocfg
 sudo -u $CFG_INVENIO_USER tar cfph $MYFINALNAME $CFG_INVENIO_PREFIX/*
 
 # restart Apache:
-sudo $CFG_INVENIO_APACHECTL start
+if hash service 2>/dev/null; then
+    sudo service apache2 start
+else
+    sudo $CFG_INVENIO_APACHECTL start
+fi
 
 # we are done:
 echo "[INFO] Created $MYFINALNAME."

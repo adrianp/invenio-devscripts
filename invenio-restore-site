@@ -52,7 +52,11 @@ if [ ! -e $MYTARBALL ]; then
 fi
 
 # perparations: stop Apache:
-sudo $CFG_INVENIO_APACHECTL stop
+if hash service 2>/dev/null; then
+    sudo service apache2 stop
+else
+    sudo $CFG_INVENIO_APACHECTL stop
+fi
 
 # preparations: stop bibsched queue:
 if [ -f $CFG_INVENIO_PREFIX/bin/bibsched ]; then
@@ -71,7 +75,11 @@ cd $MYOLDDIR
 sudo -u $CFG_INVENIO_USER gzip -cd $CFG_INVENIO_PREFIX/var/log/*dbdump*sql.gz | $CFG_INVENIO_PREFIX/bin/dbexec
 
 # restart Apache:
-sudo $CFG_INVENIO_APACHECTL restart
+if hash service 2>/dev/null; then
+    sudo service apache2 restart
+else
+    sudo $CFG_INVENIO_APACHECTL restart
+fi
 
 # we are done:
 echo "[INFO] Done."
