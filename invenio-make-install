@@ -34,3 +34,8 @@ set -o nounset
         sudo -u ${CFG_INVENIO_USER} ${CFG_INVENIO_PREFIX}/bin/inveniocfg --update-all && \
         sudo -u ${CFG_INVENIO_USER} touch ${CFG_INVENIO_PREFIX}/var/www-wsgi/invenio.wsgi) > /dev/null
 echo "invenio-make-install finished."
+
+# if possible, send a desktop notification
+if hash notify-send 2>/dev/null; then
+    notify-send --urgency=low "invenio-make-install finished."
+fi
